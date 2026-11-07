@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>治愈泡泡乐园 | Healing Bubble Park</title>
+<meta name="description" content="治愈泡泡乐园，轻松治愈休闲小游戏，钓鱼、地宫寻宝、迷宫竞速，在泡泡世界放松自己。"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans SC',sans-serif}
+:root{
+  --main:#74e2d0;
+  --light:#b9f4ec;
+  --soft:#fff8fd;
+  --pink:#ffc8e0;
+  --text:#334155;
+  --shadow:0 8px 24px rgba(116,226,208,0.25);
+  --radius:22px
+}
+body{
+  background:linear-gradient(140deg,#e6fffb,#fff0f8,#f0f9ff);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100vh
+}
+/* 漂浮泡泡背景 */
+.bubble-wrap{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0
+}
+.bubble{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(circle at 30% 30%,rgba(255,255,255,0.85),rgba(116,226,208,0.2));
+  animation:float 12s ease-in-out infinite;
+  opacity:0.6
+}
+@keyframes float{
+  0%{transform:translateY(100vh) rotate(0deg);opacity:0}
+  10%{opacity:0.65}
+  90%{opacity:0.55}
+  100%{transform:translateY(-120vh) rotate(360deg);opacity:0}
+}
+header{
+  position:relative;
+  z-index:2;
+  padding:20px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center
+}
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:24px;
+  font-weight:700;
+  color:#227c70
+}
+.logo span{
+  width:40px;height:40px;
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--main),var(--pink));
+  display:grid;
+  place-items:center;
+  color:white
+}
+nav a{
+  text-decoration:none;
+  color:var(--text);
+  margin:0 12px;
+  font-weight:500;
+  transition:0.25s
+}
+nav a:hover{color:#227c70}
+.hero{
+  position:relative;
+  z-index:2;
+  padding:60px 6% 80px;
+  text-align:center
+}
+.hero h1{
+  font-size:clamp(36px,6vw,64px);
+  color:#1b6b60;
+  line-height:1.2;
+  margin-bottom:16px
+}
+.hero p{
+  font-size:18px;
+  max-width:620px;
+  margin:0 auto 32px;
+  color:#475569
+}
+.btns{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap
+}
+.btn{
+  padding:14px 28px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:500;
+  transition:0.25s;
+  border:none;cursor:pointer;
+  font-size:16px
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--main),#52d4c0);
+  color:white;
+  box-shadow:var(--shadow)
+}
+.btn-primary:hover{transform:translateY(-3px)}
+.btn-outline{
+  background:rgba(255,255,255,0.6);
+  border:1px solid #99e9dd;
+  color:#227c70
+}
+.btn-outline:hover{background:white}
+section{
+  position:relative;
+  z-index:2;
+  padding:70px 6%
+}
+.section-title{
+  text-align:center;
+  font-size:32px;
+  color:#1b6b60;
+  margin-bottom:40px
+}
+.features{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:24px
+}
+.card{
+  background:rgba(255,255,255,0.72);
+  backdrop-filter:blur(10px);
+  padding:28px;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  transition:0.25s
+}
+.card:hover{transform:translateY(-6px)}
+.card h3{
+  color:#1b6b60;
+  margin-bottom:10px
+}
+.card p{color:#475569;line-height:1.6}
+.version{
+  background:rgba(255,255,255,0.65);
+  border-radius:var(--radius);
+  padding:30px;
+  max-width:800px;
+  margin:0 auto;
+  box-shadow:var(--shadow)
+}
+.version h3{color:#1b6b60;margin-bottom:12px}
+.version ul{padding-left:20px;line-height:1.8;color:#475569}
+footer{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:40px 6%;
+  color:#64748b;
+  font-size:14px
+}
+footer a{color:#227c70;text-decoration:none}
+@media(max-width:720px){
+  header{flex-direction:column;gap:16px}
+  nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  nav a{margin:0 6px}
+}
+</style>
+</head>
+<body>
+<div class="bubble-wrap" id="bubbleBox"></div>
+<header>
+  <div class="logo">
+    <span>泡</span>
+    治愈泡泡乐园
+  </div>
+  <nav>
+    <a href="#features">玩法</a>
+    <a href="#version">版本更新</a>
+    <a href="#download">下载</a>
+    <a href="#about">关于</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <h1>治愈泡泡乐园</h1>
+  <p>在软软的泡泡世界里慢下来，钓鱼、地宫寻宝、迷宫竞速，轻松治愈，没有压力。</p>
+  <div class="btns">
+    <a href="#download" class="btn btn-primary">立即体验</a>
+    <a href="#version" class="btn btn-outline">查看更新日志</a>
+  </div>
+</div>
+
+<section id="features">
+  <h2 class="section-title">乐园玩法</h2>
+  <div class="features">
+    <div class="card">
+      <h3>🎣 钓鱼模式</h3>
+      <p>安静湖边垂钓，收集各色鱼种，慢慢解锁图鉴，享受悠闲时光。</p>
+    </div>
+    <div class="card">
+      <h3>🏺 摸金校尉 · 地宫寻宝</h3>
+      <p>深入神秘地宫，寻找宝藏，小心机关，探索惊喜。</p>
+    </div>
+    <div class="card">
+      <h3>🌀 迷宫竞速</h3>
+      <p>限时迷宫闯关，比拼路线，轻松竞速，适合快速一局。</p>
+    </div>
+    <div class="card">
+      <h3>☁️ 治愈休闲</h3>
+      <p>无强制任务，节奏舒缓，随时上线，随时停下。</p>
+    </div>
+  </div>
+</section>
+
+<section id="version">
+  <h2 class="section-title">版本公告</h2>
+  <div class="version">
+    <h3>当前版本：1.7.1</h3>
+    <ul>
+      <li>新增：地宫寻宝摸金校尉玩法，全新关卡与宝藏系统</li>
+      <li>优化：钓鱼模式AI与鱼群刷新逻辑</li>
+      <li>新增：迷宫竞速赛季 S0 开启</li>
+      <li>完善：实名认证、隐私政策、多语言国际化</li>
+      <li>加固：MD5文件校验、防篡改、ASAR加密保护</li>
+      <li>修复：多处UI适配、音效、存档异常问题</li>
+    </ul>
+  </div>
+</section>
+
+<section id="download">
+  <h2 class="section-title">下载入口</h2>
+  <div style="text-align:center">
+    <div class="btns">
+      <a class="btn btn-primary" href="#">Windows 版</a>
+      <a class="btn btn-primary" href="#">Mac 版</a>
+      <a class="btn btn-primary" href="#">iOS 版</a>
+    </div>
+    <p style="margin-top:20px;color:#475569">支持 ARM64 Mac / Intel Mac / Windows，Electron 跨平台</p>
+  </div>
+</section>
+
+<section id="about">
+  <h2 class="section-title">关于我们</h2>
+  <div style="max-width:700px;margin:0 auto;text-align:center;line-height:1.7;color:#475569">
+    <p>治愈泡泡乐园是一款独立开发的休闲治愈向游戏，主打轻松低压力的游玩体验。</p>
+    <p>项目采用 Electron + HTML/JS 开发，支持多端打包，持续迭代新玩法。</p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 治愈泡泡乐园 | <a href="privacy.html">隐私政策</a> | <a href="user.html">用户协议</a></p>
+</footer>
+
+<script>
+const box=document.getElementById('bubbleBox');
+for(let i=0;i<22;i++){
+  const b=document.createElement('div');
+  b.className='bubble';
+  const size=Math.random()*90+20;
+  b.style.width=size+'px';
+  b.style.height=size+'px';
+  b.style.left=Math.random()*100+'%';
+  b.style.animationDelay=Math.random()*12+'s';
+  b.style.animationDuration=(Math.random()*8+10)+'s';
+  box.appendChild(b);
+}
+</script>
+</body>
+</html>
